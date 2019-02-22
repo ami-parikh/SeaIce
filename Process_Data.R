@@ -3,6 +3,7 @@
 library(lubridate)
 library(dbplyr)
 library(tidyverse)
+seaIceclean <- read.csv("~/SeaIce/seaIceclean.csv")
 weekly_seaice <- seaIceclean %>%
   mutate(year = year(date))%>%
   #handle week of year 53 as 52 (counts by full week)
@@ -37,6 +38,7 @@ joined %>%
   filter(is.na(Extent))
 complete_weekly_seaice <- joined %>%
   select(year,week_of_year,Extent)
-
+complete_weekly_seaice
+complete_ts <- ts(complete_weekly_seaice[complete_weekly_seaice$year>1988,3],start=c(1989,1),frequency=52)
 ###
 saveRDS(complete_ts,'SeaIceCompleteTS.rds')
