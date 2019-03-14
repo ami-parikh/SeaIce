@@ -18,12 +18,15 @@ autoplot(train)
 #additive model for Holt Winters
 mod_additive =HoltWinters(train, seasonal = "additive")
 
-test_forecast_additive = forecast(mod,104)
+summary(mod_additive)
+
+test_forecast_additive = forecast(mod_additive,104)
 test_forecast_additive
 
 residuals_additive = test_forecast_additive$mean-test
 
-autoplot(test_forecast_additive)
+autoplot(test_forecast_additive) + autolayer(test)
+
 
 checkresiduals(mod_additive)
 
@@ -34,13 +37,14 @@ checkresiduals(mod_additive)
 
 mod_multiplicative = HoltWinters(train, seasonal = "multiplicative")
 
-test_forecast_multiplicative = forecast(mod,104)
+test_forecast_multiplicative = forecast(mod_multiplicative,104)
 test_forecast_multiplicative
 
 residuals_multiplicative = test_forecast_multiplicative$mean-test
 
-autoplot(test_forecast_multiplicative)
+autoplot(test_forecast_multiplicative) + autolayer(test)
 
 checkresiduals(mod_multiplicative)
 
 (mape = 100* sum(abs(test-test_forecast_multiplicative$mean)/test)/104)
+
